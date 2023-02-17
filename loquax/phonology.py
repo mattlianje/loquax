@@ -1,195 +1,188 @@
-from loquax.latin_grammar import (
-    is_vowel,
-    is_aspirate,
-    is_diphtong,
-    is_stop,
-    is_liquid,
-    latin_letter_groups,
-)
-
-"""
-Syllabic decomposition rules used:
-http://www.wheelockslatin.com/chapters/introduction/introduction_syllables.html
-
-"""
-
-
-class Phoneme:
-    """
-    Class to represent a single phoneme or sound unit in a word.
-    """
-
-    def __init__(self, val):
-        """
-        Initializes the Phoneme object with the given value and sets its attributes.
-        """
-        self.val = val
-        self.is_diphtong = is_diphtong(val)
-        self.is_stop = is_stop(val)
-        self.is_liquid = is_liquid(val)
-        self.is_aspirate = is_aspirate(val)
-        self.is_vowel = is_vowel(val)
-        self.prev = None
-        self.next = None
-
-        self.features = {
-            "is_diphtong": self.is_diphtong,
-            "is_stop": self.is_stop,
-            "is_liquid": self.is_liquid,
-            "is_aspirate": self.is_aspirate,
-            "is_vowel": self.is_vowel,
-        }
-
-
-class Syllable:
-    """
-    Class to represent a syllable in a word.
-    Syllable: List of Phonemes with an Onset, Nucleus and Coda.
-    O-N-C (Nucleus is a vowel, Onset and Coda are optional groups of consonants).
-    """
-
-    def __init__(self, nucleus=None, onset=None, coda=None):
-        if nucleus is None:
-            self.nucleus = []
-        if onset is None:
-            self.onset = []
-        if coda is None:
-            self.coda = []
-
-
-class Word:
-    """
-    Class to represent a word composed of syllables.
-    """
-
-    def __init__(self, syllables=None):
-        if syllables is None:
-            self.syllables = []
+from loquax.commons import *
+from loquax.latin_grammar import latin_letter_groups
 
 
 def get_ipa_for_token(token: str, equivalencies: dict) -> list[dict[str, list[str]]]:
-    """
-    This function takes in a word string and a dictionary of equivalencies
-    and returns the IPA representation of the word.
+    """Return a list of dictionaries where each dictionary maps a token to its corresponding IPA symbols.
 
     Args:
-    word (str): the word to be converted to IPA
-    equivalencies (dict): a dictionary of equivalencies mapping substrings of the word to their IPA representation
-    longest_token (int): the length of the longest token in the equivalencies dictionary
-    token_corpus (set): a set of all tokens in the equivalencies dictionary
+        token (str): The word to be converted to IPA.
+        equivalencies (dict): A dictionary of equivalencies mapping substrings of the word
+                              to their IPA representation.
 
     Returns:
-    list: a list of IPA symbols or substrings representing the word
-
-    Raises:
-    Exception: if the current token is not in the equivalencies dictionary
+        list: A list of IPA symbols or substrings representing the word.
     """
 
     def _get_ipa_helper(
-            token: list[str],
-            equivalencies: dict,
-            longest_char: int,
-            char_corpus: set,
-            output: list[dict[str, list[str]]] = [],
+        _token: list[str],
+        _equivalencies: dict,
+        _max_phoneme_len: int,
+        _char_corpus: set,
+        _output: list[dict[str, list[str]]] = [],
     ) -> list:
-        """
-        Helper function used to accumulate the IPA representation of the word.
+        """Helper function used to accumulate the IPA representation of the word.
+
+        Args:
+            _token (list[str]): A list of tokens representing the word.
+            _equivalencies (dict): A dictionary mapping tokens to their corresponding IPA symbols.
+            _max_phoneme_len (int): The maximum allowed length of a single IPA symbol.
+            _char_corpus (set): A set containing all the valid tokens.
+            _output (list[dict[str, list[str]]]): A list of dictionaries,
+                    where each dictionary maps a token to its corresponding IPA symbols.
 
         Returns:
-        A List of IPA symbols or substrings representing the word
+            A List of IPA symbols or substrings representing the word.
         """
-        if not token:
-            return output
+        match _token:
+            case []:
+                # If we have processed all the tokens, return the output
+                return _output
+            case t:
+                # Otherwise, process the next token
+                current_char = t[0]
+                remaining_word = t[1:]
+                current_max_char_size = min(
+                    len(remaining_word) + len(current_char), _max_phoneme_len
+                )
+                max_token_vs_current_delta = current_max_char_size - len(current_char)
+                max_extra_chars = (
+                    max_token_vs_current_delta if max_token_vs_current_delta >= 0 else 0
+                )
+                match current_char in _equivalencies:
+                    # Ensures current token has an IPA symbol
+                    case True:
+                        match max_extra_chars:
+                            case 0:
+                                # If there are no remaining characters to process, add token to output
+                                k, v = current_char, _equivalencies[current_char]
+                                new_output = _output + [{k: v}]
+                                return _get_ipa_helper(
+                                    remaining_word,
+                                    _equivalencies,
+                                    _max_phoneme_len,
+                                    _char_corpus,
+                                    new_output,
+                                )
+                            case x if x > 0:
+                                # If there are remaining characters, form a candidate token
+                                candidate_char = current_char + "".join(
+                                    remaining_word[0:x]
+                                )
+                                match candidate_char in _char_corpus:
+                                    case True:
+                                        # If the new token is valid, add it to the output
+                                        k, v = (
+                                            candidate_char,
+                                            _equivalencies[candidate_char],
+                                        )
+                                        new_output = _output + [{k: v}]
+                                        return _get_ipa_helper(
+                                            remaining_word[x:],
+                                            _equivalencies,
+                                            _max_phoneme_len,
+                                            _char_corpus,
+                                            new_output,
+                                        )
+                                    case _:
+                                        # If the new token is not valid, add the current token to output
+                                        k, v = (
+                                            current_char,
+                                            _equivalencies[current_char],
+                                        )
+                                        new_output = _output + [{k: v}]
+                                        return _get_ipa_helper(
+                                            remaining_word,
+                                            _equivalencies,
+                                            _max_phoneme_len,
+                                            _char_corpus,
+                                            new_output,
+                                        )
+                    case False:
+                        raise Exception(
+                            f"Sorry, '{current_char}' is not in: {_char_corpus}"
+                        )
 
-        current_char = token[0]
-        remaining_word = token[1:]
-        current_max_char_size = min(
-            len(remaining_word) + len(current_char), longest_token
-        )
-        max_token_vs_current_delta = current_max_char_size - len(current_char)
-
-        # Handles the final token of word
-        max_extra_tokens = (
-            max_token_vs_current_delta if max_token_vs_current_delta >= 0 else 0
-        )
-
-        if current_char in equivalencies:
-            for i in reversed(range(max_extra_tokens + 1)):
-                candidate_char = current_char + "".join(remaining_word[0:i])
-                if candidate_char in char_corpus:
-                    match = equivalencies[candidate_char]
-                    if type(match) is list:
-                        output.append({candidate_char: match})
-                    else:
-                        output.append(match)
-                    return _get_ipa_helper(
-                        remaining_word[i:],
-                        equivalencies,
-                        longest_token,
-                        char_corpus,
-                        output,
-                    )
-        else:
-            raise Exception(f"Sorry, '{current_char}' is not in: {char_corpus}")
-
-    longest_token = len(max(equivalencies.keys(), key=len)) if equivalencies else 0
+    longest = len(max(equivalencies.keys(), key=len)) if equivalencies else 0
     char_corpus = set([c for c in equivalencies.keys()])
-    return _get_ipa_helper(
-        [c for c in token], equivalencies, longest_token, char_corpus
-    )
+    return _get_ipa_helper([c for c in token], equivalencies, longest, char_corpus)
 
 
 def split_token_into_phonemes(
-        word: str, letter_groups: list[str] = latin_letter_groups
+    word: str, letter_groups: list[str] = latin_letter_groups
 ) -> list[Phoneme]:
-    """
-    Splits a token into phonetic elements (phonemes)
+    """Splits a token into phonetic elements (phonemes)
 
     Args:
     word (str): The word to be split into phonetic elements.
     letter_groups (List[str], optional): A list of strings representing the allowed letter groups.
-    longest_group (int): an integer representing the length of the longest allowed letter group
 
     Returns:
-    List[Phonemes]: A list of Phone objects representing the processed phonetic elements.
+    List[Phonemes]: A list of Phoneme objects representing the processed phonetic elements.
     """
 
     def _split_token(
-            word: list[str],
-            output: list[Phoneme],
-            letter_groups: list[str],
-            longest_group: int,
+        _word: list[str],
+        _output: list[Phoneme],
+        _letter_groups: list[str],
+        _longest_group: int,
     ) -> list[Phoneme]:
+        """Helper function used to split a token into phonemes.
+
+        Args:
+            _word: A list of strings representing the token to be split.
+            _output: A list of `Phoneme` objects representing the processed phonetic elements.
+            _letter_groups: A list of valid letter groups.
+            _longest_group: The length of the longest valid letter group.
         """
-        _split_word is a helper called repeatedly until all letters in the word
-        have been processed and added to the output list.
 
-        Returns:
-        List[Phoneme]: List of Phoneme objects representing the processed phonetic elements.
-        """
-        if not word:
-            return output
+        def _split_token_helper(_word, _output, _letter_groups, _longest_group, i=1):
+            """Helper function used to split a token into phonemes.
 
-        current_group = word[0]
-        current_max_group_size = min(len(word[1:]) + len(current_group), longest_group)
-        max_group_vs_current_delta = current_max_group_size - len(current_group)
-        max_extra_letters = (
-            max_group_vs_current_delta if max_group_vs_current_delta >= 0 else 0
-        )
+            Args:
+                _word: A list of strings representing the token to be split.
+                _output: A list of `Phoneme` objects representing the processed phonetic elements.
+                _letter_groups: A list of valid letter groups.
+                _longest_group: The length of the longest valid letter group.
+                i: The index of the current character in the token.
+            """
+            # Process the first character in the word
+            _current_group = _word[0]
+            # If we have reached the end of the word, return the output
+            match i > (_longest_group - len(_word[0])):
+                case True:
+                    return _split_token(
+                        _word[1:],
+                        _output + [Phoneme(_word[0])],
+                        _letter_groups,
+                        _longest_group,
+                    )
+                case False:
+                    # Try to form a new letter group by appending more letters to the current group
+                    _candidate_group = _current_group + "".join(_word[1 : i + 1])
+                    # If the new group is valid, add it to the output and continue processing the remaining letters
+                    match _candidate_group in _letter_groups:
+                        case True:
+                            return _split_token(
+                                _word[i + 1 :],
+                                _output + [Phoneme(_candidate_group)],
+                                _letter_groups,
+                                _longest_group,
+                            )
+                        case False:
+                            # If the new group is not valid, increment i and try again
+                            return _split_token_helper(
+                                _word, _output, _letter_groups, _longest_group, i + 1
+                            )
 
-        for i in range(1, max_extra_letters + 1):
-            candidate_group = current_group + "".join(word[1: i + 1])
-            if candidate_group in letter_groups:
-                return _split_token(
-                    word[i + 1:],
-                    output + [Phoneme(candidate_group)],
-                    letter_groups,
-                    longest_group,
+        match _word:
+            case []:
+                # If we have processed all the characters in the word, return the output
+                return _output
+            case _:
+                return _split_token_helper(
+                    _word, _output, _letter_groups, _longest_group, 1
                 )
 
-        return _split_token(
-            word[1:], output + [Phoneme(current_group)], letter_groups, longest_group
-        )
-
-    longest_group = len(max(letter_groups, key=len)) if letter_groups else 0
-    return _split_token([c for c in word], [], letter_groups, longest_group)
+    longest = len(max(letter_groups, key=len)) if letter_groups else 0
+    return _split_token([c for c in word], [], letter_groups, longest)

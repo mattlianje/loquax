@@ -1,6 +1,11 @@
-# Lexicon
-# morphological analysis
-# https://en.wikipedia.org/wiki/Help:IPA/Latin
+"""
+Syllabic decomposition rules used:
+http://www.wheelockslatin.com/chapters/introduction/introduction_syllables.html
+
+IPA mappings used:
+https://en.wikipedia.org/wiki/Help:IPA/Latin
+"""
+
 
 latin_vowel_equivalencies = {
     "a": ["a"],
