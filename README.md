@@ -4,6 +4,9 @@
 <p align="center">A <i><a href="https://en.wikipedia.org/wiki/Classical_antiquity" target="_blank">Classical</a></i> Phonology framework</p>
 <p align="center">
   <a href="https://github.com/psf/black"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg"></a>
+  <a href="https://codecov.io/gh/mattlianje/loquax" >
+    <img src="https://codecov.io/gh/mattlianje/loquax/branch/main/graph/badge.svg?token=EBMEFP40QL"/>
+  </a>
 </p>
 
 Loquax, (Latin for "chatty"), is an _**extensible**_ Python library for analyzing and manipulating phonology of endangered & extinct languages. It provides functionality for:
