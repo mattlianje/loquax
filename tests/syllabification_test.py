@@ -35,4 +35,3 @@ class TestSyllabifyToken(unittest.TestCase):
         ]
         with self.assertRaises(ValueError):
             Syllable(invalid_syllable_phonemes, self.lang)
-

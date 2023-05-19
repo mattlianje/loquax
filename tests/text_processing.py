@@ -20,10 +20,25 @@ class TestAccentDetection(unittest.TestCase):
 class TestDocument(unittest.TestCase):
     def setUp(self):
         self.lang = Latin
+        self.catilina = "Quoūsque tandem abutēre, Catilīna, patientiā nostrā?"
 
-    def test_get_syllables(self):
+    def test_get_syllables_no_ipa_no_scansion(self):
         doc = Document(
-            "Quoūsque tandem abutēre, Catilīna, patientiā nostrā?",
+            self.catilina,
             self.lang,
         )
-        print(doc.__str__(ipa=False, scansion=True))
+        print(doc.to_str(ipa=False, scansion=False))
+
+    def test_get_syllables_ipa_only(self):
+        doc = Document(
+            self.catilina,
+            self.lang,
+        )
+        print(doc.to_str(ipa=True, scansion=False))
+
+    def test_get_syllables_ipa_and_scansion(self):
+        doc = Document(
+            self.catilina,
+            self.lang,
+        )
+        print(doc.to_str(ipa=True, scansion=True))

@@ -280,10 +280,15 @@ class Syllable:
         symbol = "U" if not self.is_long else "—"
         return symbol.center(len(self.__repr__() if ipa else self.__str__()))
 
-    def __str__(self, ipa: bool = False) -> str:
+    def to_str(self, ipa: bool = False) -> str:
         return "".join(
             [phoneme.ipa if ipa else phoneme.val for phoneme in self.phonemes]
         )
+
+    # def __str__(self, ipa: bool = False) -> str:
+    #     return "".join(
+    #         [phoneme.ipa if ipa else phoneme.val for phoneme in self.phonemes]
+    #     )
 
     def __repr__(self):
         return "".join([phoneme.val for phoneme in self.phonemes])
