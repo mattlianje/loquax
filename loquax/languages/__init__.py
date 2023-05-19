@@ -1,0 +1,1 @@
+from .latin import Latin

@@ -1,13 +1,12 @@
 import unittest
 
-from loquax.languages.latin_specs import latin
-from loquax.phonology import get_phonemes
-from loquax.syllabification import get_syllables
+from loquax.languages import Latin
+from loquax.abstractions.phonology import get_phonemes
 
 
 class TestSplitTokenIntoPhonemes(unittest.TestCase):
     def setUp(self):
-        self.lang = latin
+        self.lang = Latin
 
     def test_split_word_into_phonemes_valid_input(self):
         word = "rosae"
@@ -29,40 +28,20 @@ class TestSplitTokenIntoPhonemes(unittest.TestCase):
     def test_get_ipa_from_phonemes(self):
         word = "dominorum"
         expected = [
-            ["d"],
-            ["ɔ"],
-            ["m"],
-            ["ɪ"],
-            ["n", "ŋ"],
-            ["ɔ"],
-            ["r"],
-            ["ʊ"],
-            ["m"],
+            "d",
+            "ɔ",
+            "m",
+            "ɪ",
+            "n",
+            "ɔ",
+            "r",
+            "ʊ",
+            "m",
         ]
         self.assertEqual(
             [phoneme.ipa for phoneme in get_phonemes(word, self.lang)],
             expected,
         )
-
-
-class TestSyllabifyToken(unittest.TestCase):
-    def setUp(self):
-        self.lang = latin
-
-    def test_get_syllables(self):
-        tokens = [
-            "supra",
-            "terra",
-            "dominorum",
-            "quosque",
-            "rosae",
-            "aquila",
-            "cartago",
-        ]
-        results = [
-            get_syllables(get_phonemes(token, self.lang), self.lang) for token in tokens
-        ]
-        print(results)
 
 
 if __name__ == "__main__":

@@ -41,21 +41,18 @@ latin_consonant_equivalencies = {
     "z": ["z"],
     "q": ["k"],
     "g": ["g"],
+    "x": ["k͡s"],
+    "v": ["w", "v"],
 }
 
 latin_aspirates = {"qu", "ch", "ph", "th", "kʷ", "kʰ", "pʰ", "tʰ"}
-latin_diphtongs = {
+latin_diphthongs = {
     "ae",
     "au",
     "ei",
     "eu",
     "oe",
     "ui",
-    "ae̯",
-    "oe̯",
-    "au̯",
-    "eu̯",
-    "ui̯",
 }
 latin_liquid_letters = {"l", "r"}
 latin_stop_letters = {"p", "b", "t", "d", "c", "g"}

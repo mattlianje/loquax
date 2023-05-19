@@ -8,7 +8,7 @@ class Constants:
     vowel_equivalencies: Dict[str, List[str]]
     consonant_equivalencies: Dict[str, List[str]]
     aspirates: Set[str]
-    diphtongs: Set[str]
+    diphthongs: Set[str]
     liquid_letters: Set[str]
     stop_letters: Set[str]
 
@@ -43,7 +43,7 @@ class Constants:
                 lambda x: len(x) > 1,
                 set(
                     self.aspirates.union(
-                        self.diphtongs,
+                        self.diphthongs,
                         self.liquid_letters,
                         self.stop_letters,
                         self.vowels,
