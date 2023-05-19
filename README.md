@@ -9,6 +9,7 @@
   </a>
 </p>
 
+<p align="center">
 Loquax, (Latin for "chatty"), is an _**extensible**_ Python library for analyzing and manipulating phonology of endangered & extinct languages. With hobbyists and academia in mind, it provides functionality for:
 
 - **Syllabification:** Break down words into their fundamental phonetic components.
@@ -18,4 +19,5 @@ Loquax, (Latin for "chatty"), is an _**extensible**_ Python library for analyzin
 - **Scansion:** Analyze the rhythm of verse in classical poetry, and syllable weight in general.
 - **Extensibility:** Build and customize your own language rules for unique or theoretical languages.
 
-Loquax is a zero-dependency tool, using functional style Python 3.10+ features to revive the sounds of the past, one phoneme at a time. 
+Loquax is a zero-dependency tool, using functional style Python 3.10+ features to revive the sounds of the past, one phoneme at a time.
+</p>
