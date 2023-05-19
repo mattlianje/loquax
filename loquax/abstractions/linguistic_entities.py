@@ -57,7 +57,7 @@ class RuleSequence(Generic[T]):
 
         return all(
             rule.matches(unit)
-            for rule, unit in zip(self.rules, units[-len(self.rules) :])
+            for rule, unit in zip(self.rules, units[-len(self.rules):])
         )
 
 
@@ -75,21 +75,21 @@ class Morphism(Generic[T]):
 
     def matches(self, units: List[T], index: int) -> bool:
         return (
-            (
-                self.prefix.matches(
-                    units[max(0, index - len(self.prefix.rules)) : index]
+                (
+                    self.prefix.matches(
+                        units[max(0, index - len(self.prefix.rules)): index]
+                    )
+                    if self.prefix
+                    else True
                 )
-                if self.prefix
-                else True
-            )
-            and self.target.matches(units[index])
-            and (
-                self.suffix.matches(
-                    units[index + 1 : index + 1 + len(self.suffix.rules)]
+                and self.target.matches(units[index])
+                and (
+                    self.suffix.matches(
+                        units[index + 1: index + 1 + len(self.suffix.rules)]
+                    )
+                    if self.suffix
+                    else True
                 )
-                if self.suffix
-                else True
-            )
         )
 
     def apply(self, units: List[T]) -> List[T]:
@@ -128,7 +128,7 @@ class PhonemeSyllabificationRuleStore:
     rules: List[RuleSequence["Phoneme"]]
 
     def apply_all(
-        self, phonemes: List["Phoneme"]
+            self, phonemes: List["Phoneme"]
     ) -> Tuple[List["Phoneme"], List["Phoneme"]]:
         if not phonemes:
             return [], []
@@ -138,7 +138,7 @@ class PhonemeSyllabificationRuleStore:
                 rule
                 for rule in self.rules
                 if len(rule.rules) <= len(phonemes)
-                and rule.matches(phonemes[-len(rule.rules) :])
+                   and rule.matches(phonemes[-len(rule.rules):])
             ),
             None,
         )
@@ -215,9 +215,6 @@ class Phoneme:
     def is_consonant(self) -> bool:
         return self.val in self.lang.constants.consonants
 
-    def __repr__(self) -> str:
-        return self.val
-
     def set_ipa(self, new_ipa: str) -> "Phoneme":
         # Ensure the new IPA is a valid equivalent for this phoneme
         if new_ipa not in self.lang.constants.equivalencies[self.val]:
@@ -227,6 +224,18 @@ class Phoneme:
             )
         # Return a new Phoneme with the same val and lang, but with the new IPA
         return Phoneme(val=self.val, lang=self.lang, ipa=new_ipa)
+
+    def to_str(self, ipa: bool = False):
+        if ipa:
+            return self.val
+        else:
+            return self.ipa
+
+    def __repr__(self) -> str:
+        return self.val
+
+    def __str__(self) -> str:
+        return self.__repr__()
 
 
 @dataclass
@@ -266,7 +275,7 @@ class Syllable:
     def coda(self) -> Optional[List[Phoneme]]:
         first_vowel_index = self._find_first_vowel_index()
         if first_vowel_index is not None:
-            return self.phonemes[first_vowel_index + 1 :]
+            return self.phonemes[first_vowel_index + 1:]
         return None
 
     @property
@@ -287,3 +296,6 @@ class Syllable:
 
     def __repr__(self):
         return "".join([phoneme.val for phoneme in self.phonemes])
+
+    def __str__(self):
+        return self.__repr__()

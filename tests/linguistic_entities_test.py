@@ -278,6 +278,3 @@ class TestSyllableMorphisms(unittest.TestCase):
         transformed_s = latin_syllable_morphisms.apply_all([s, s2])[0]
         self.assertEqual(transformed_s.is_long, True)
 
-
-if __name__ == "__main__":
-    unittest.main()
