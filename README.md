@@ -17,10 +17,14 @@ Loquax, (Latin for "chatty"), is an <b><i>extensible</i></b> Python library for 
 Its a zero-dependency framework, using functional style Python 3.10+ features to revive the sounds of the past, one phoneme at a time. With hobbyists and academia in mind, it provides functionality for:
 </p>
 
-- **Syllabification:** Break down words into their fundamental phonetic components.
-- **Phoneme Analysis:** Understand the unique sounds and their roles within words.
-- **Morphological Transformations:** Observe and manipulate the structure of words.
-- **IPA Transliteration:** Convert text into the International Phonetic Alphabet for universal comprehension.
-- **Scansion:** Analyze the rhythm of verse in classical poetry, and syllable weight in general.
-- **Extensibility:** Build and customize your own language rules for unique or theoretical languages.
+<ul style="list-style-position:inside; text-align:left">
+  <li><b>Syllabification:</b> Break down words into their fundamental phonetic components.</li>
+  <li><b>Phoneme Analysis:</b> Understand the unique sounds and their roles within words.</li>
+  <li><b>Morphological Transformations:</b> Observe and manipulate the structure of words.</li>
+  <li><b>IPA Transliteration:</b> Convert text into the International Phonetic Alphabet for universal comprehension.</li>
+  <li><b>Scansion:</b> Analyze the rhythm of verse in classical poetry, and syllable weight in general.</li>
+  <li><b>Extensibility:</b> Build and customize your own language rules for unique or theoretical languages.</li>
+</ul>
+
+</div>
 
