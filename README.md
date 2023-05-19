@@ -16,4 +16,3 @@ Loquax, (Latin for "chatty"), is an _**extensible**_ Python library for analyzin
 - **Extensibility:** Build and customize your own language rules for unique or theoretical languages.
 
 Loquax is a zero-dependency tool, using functional style Python 3.10+ features to revive the sounds of the past, one phoneme at a time. 
-
