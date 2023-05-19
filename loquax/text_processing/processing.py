@@ -19,9 +19,9 @@ class Token:
     def syllables(self) -> List[Syllable]:
         return get_syllables_from_token(self.value, self.language)
 
-    def __str__(self, ipa: bool = False, scansion: bool = False) -> str:
+    def to_str(self, ipa: bool = False, scansion: bool = False) -> str:
         syllable_reprs: List[str] = list(
-            map(lambda syl: syl.__str__(ipa), self.syllables)
+            map(lambda syl: syl.to_str(ipa), self.syllables)
         )
         syllable_repr_str: str = reduce(
             lambda acc, repr: acc + "." + repr, syllable_reprs
@@ -62,9 +62,9 @@ class Document:
             for token in self.language.tokenizer.tokenize(self.val)
         ]
 
-    def __str__(self, ipa: bool = False, scansion: bool = False) -> str:
+    def to_str(self, ipa: bool = False, scansion: bool = False) -> str:
         join_syllables: Callable[[Token], str] = lambda token: ".".join(
-            map(lambda syl: syl.__str__(ipa), token.syllables)
+            map(lambda syl: syl.to_str(ipa), token.syllables)
         )
 
         token_syllable_reprs: List[str] = list(map(join_syllables, self.tokens))
@@ -75,7 +75,7 @@ class Document:
         if scansion:
             join_scansion: Callable[[Token], str] = lambda token: " ".join(
                 map(
-                    lambda syl: syl.scansion_str(ipa).center(len(syl.__str__(ipa))),
+                    lambda syl: syl.scansion_str(ipa).center(len(syl.to_str(ipa))),
                     token.syllables,
                 )
             )
