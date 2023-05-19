@@ -3,7 +3,6 @@ import unittest
 from loquax.abstractions import Syllable, Phoneme
 from loquax.languages import Latin
 from loquax.abstractions.syllabification import get_syllables_from_token
-from loquax.text_processing import Document
 
 
 class TestSyllabifyToken(unittest.TestCase):
