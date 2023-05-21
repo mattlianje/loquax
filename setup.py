@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="loquax",
-    version="0.1.0",
+    version="0.1.4",
     author="Matthieu Court",
     author_email="matthieu.court@protonmail.com",
     description="A Classical Phonology framework",

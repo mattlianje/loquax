@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from functools import reduce
 from typing import Optional, List, Callable, Tuple, TypeVar, Generic, Union
 from loquax.abstractions.constants import Constants
@@ -178,13 +178,20 @@ class Phoneme:
     ipa: Optional[str] = None
 
     def __post_init__(self):
+        self.validate_phoneme()
+        self.assign_ipa()
+
+    def validate_phoneme(self):
         if self.val not in self.lang.constants.equivalencies:
             raise ValueError(
                 f"The symbol '{self.val}' is not a valid phoneme in the language: '{self.lang.language_name}'."
             )
-        # If ipa is not set, use the first IPA equivalent from equivalencies
+
+    def assign_ipa(self, ipa: str = None):
         if self.ipa is None:
             self.ipa = self.lang.constants.equivalencies[self.val][0]
+        elif self.ipa is not None:
+            self.ipa = ipa
         elif self.ipa not in self.lang.constants.equivalencies[self.val]:
             raise ValueError(
                 f"""The IPA symbol '{self.ipa}' is not a valid equivalent for phoneme '{self.val}' 
@@ -225,7 +232,7 @@ class Phoneme:
         # Return a new Phoneme with the same val and lang, but with the new IPA
         return Phoneme(val=self.val, lang=self.lang, ipa=new_ipa)
 
-    def to_str(self, ipa: bool = False):
+    def to_string(self, ipa: bool = False):
         if ipa:
             return self.val
         else:
@@ -286,16 +293,16 @@ class Syllable:
         return next((i for i, p in enumerate(self.phonemes) if p.is_vowel), None)
 
     def scansion_str(self, ipa: bool = False) -> str:
-        symbol = "U" if not self.is_long else "—"
+        symbol = "u" if not self.is_long else "-"
         return symbol.center(len(self.__repr__() if ipa else self.__str__()))
 
-    def to_str(self, ipa: bool = False) -> str:
+    def to_string(self, ipa: bool = False) -> str:
         return "".join(
             [phoneme.ipa if ipa else phoneme.val for phoneme in self.phonemes]
         )
 
     def __repr__(self):
-        return "".join([phoneme.val for phoneme in self.phonemes])
+        return self.to_string(ipa=False)
 
     def __str__(self):
         return self.__repr__()
