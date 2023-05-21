@@ -7,7 +7,7 @@
   <a href="https://codecov.io/gh/mattlianje/loquax" >
     <img src="https://codecov.io/gh/mattlianje/loquax/branch/main/graph/badge.svg?token=EBMEFP40QL"/>
   </a>
-  <img src="https://github.com/johnsmith/loquax/actions/workflows/main.yml/badge.svg" alt="Build status">
+  <img src="https://github.com/mattlianje/loquax/actions/workflows/main.yml/badge.svg" alt="Build status"> 
 </p>
 
 <p align="center">
