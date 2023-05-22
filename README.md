@@ -17,7 +17,7 @@ Loquax, (Latin for "chatty"), is an <b><i>extensible</i></b> Python library for 
 ... 
 </p>
 
-- [**Syllabification**](#syllabification) Break down words into their fundamental phonetic components.
+- [**Syllabification/Tokenization**](#syllabification-and-tokenization) Break down words into their fundamental phonetic components.
 - [**Phoneme Analysis:**](#phoneme-analysis) Understand the unique sounds and their roles within words.
 - [**Morphological Transformations:**](#morphological-transformations) Observe and manipulate the structure of words.
 - [**IPA Transliteration:**](#ipa-transliteration) Convert text into the International Phonetic Alphabet for universal comprehension.
@@ -60,7 +60,7 @@ print(catilinarian_orations.to_string(ipa=True, scansion=True))
 #  u   -   u      -   u     u u   -  u     u  u   -  u     u  u  u  u  -      u   -
 
 ```
-### Syllabification & Tokenization
+### Syllabification and Tokenization
 ```python
 print(catilinarian_orations.tokens)
 
