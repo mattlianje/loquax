@@ -34,7 +34,9 @@ Its a zero-dependency framework, with functional style Python 3.10+ features to 
 <p align="center">
  To see `loquax` in action without diving into code, visit <a href="https://mattlianje.pythonanywhere.com/> Loquax Latin Online </a>
 </p>
-
+<p align="center">
+... 
+</p>
 <p align="center">
 <a href="https://mattlianje.pythonanywhere.com/">
   <img src="data/loquax_latin_online_demo.png" width="500">
