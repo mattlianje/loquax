@@ -84,7 +84,7 @@ print(p.is_consonant and p.is_liquid)  # outputs: True
 ```
 
 ### Morphological Transformations
-The central problem of phonology is that linguistic units have changing features depending on their context and neighbours. 
+**The central problem of phonology** is that linguistic units have changing features depending on their context and neighbours. 
 
 Loquax allows users to tackle this by defining their own morphisms. 
 
@@ -103,17 +103,14 @@ long_position_morphism = Morphism[Syllable](
     ),
 )
 ```
-Once you've got a handle on individual morphisms, it's time to start collecting them! 
-`MorphismStore` helps you to organize your morphisms in a neat and structured way.
+`MorphismStore` helps you to organize your morphisms ...
 ```python
 from loquax.abstractions import MorphismStore
 
 # Assuming morphism1, morphism2, morphism3 are predefined Morphism objects...
 morphism_store = MorphismStore([morphism1, morphism2, morphism3])
 ```
-With a well-organized `MorphismStore`, applying transformations becomes a breeze. 
-
-Make use of the `apply_all` method to apply all transformations in your MorphismStore to a given syllable or phoneme sequence, in the order they were added to the store.
+And more importantly, use of the `apply_all` method to apply all transformations in your MorphismStore to a given syllable or phoneme sequence, in the order they were added to the store.
 
 This way, you can simulate a chain of transformations or even model complex linguistic phenomena with a single function call.
 ```python
