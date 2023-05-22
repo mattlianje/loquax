@@ -120,7 +120,7 @@ transformed_sequence = morphism_store.apply_all(syllables_sequence)
 # transformed_sequence now holds the syllables transformed by morphism1, morphism2, morphism3 in order.
 ```
 
-### IPA Transliteration {#ipa-transliteration}
+### IPA Transliteration
 To convert text into the International Phonetic Alphabet for universal comprehension, 
 you can use the `to_string` function with `ipa=True`:
 ```python
