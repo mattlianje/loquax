@@ -8,4 +8,5 @@ from .linguistic_entities import (
     Morphism,
     RuleSequence,
     Rule,
+    Constants,
 )
