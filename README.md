@@ -31,11 +31,8 @@ Loquax, (Latin for "chatty"), is an <b><i>extensible</i></b> Python library for 
 Its a zero-dependency framework, with functional style Python 3.10+ features to revive the sounds of the past, one phoneme at a time.
 </p>
 
-### Try It Out Now: Loquax Latin Online
-
 To see `loquax` in action without diving into code, visit 
 [Loquax Latin Online](https://mattlianje.pythonanywhere.com/). This web application uses `loquax` under the hood.
-On the Loquax Latin Online, you can perform real-time Latin syllabification, IPA transcription, and scansion.
 
 <p align="center">
 <a href="https://mattlianje.pythonanywhere.com/">
