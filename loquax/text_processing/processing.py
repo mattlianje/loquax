@@ -19,9 +19,9 @@ class Token:
     def syllables(self) -> List[Syllable]:
         return get_syllables_from_token(self.value, self.language)
 
-    def to_str(self, ipa: bool = False, scansion: bool = False) -> str:
+    def to_string(self, ipa: bool = False, scansion: bool = False) -> str:
         syllable_reprs: List[str] = list(
-            map(lambda syl: syl.to_str(ipa), self.syllables)
+            map(lambda syl: syl.to_string(ipa), self.syllables)
         )
         syllable_repr_str: str = reduce(
             lambda acc, repr: acc + "." + repr, syllable_reprs
@@ -45,6 +45,9 @@ class Token:
 
         return syllable_repr_str
 
+    def __repr__(self):
+        return self.to_string(ipa=True)
+
 
 @dataclass
 class Document:
@@ -54,6 +57,7 @@ class Document:
 
     val: str
     language: Language
+    max_line_width: int = 90  # change this as per your requirement
 
     @property
     def tokens(self) -> List[Token]:
@@ -62,29 +66,41 @@ class Document:
             for token in self.language.tokenizer.tokenize(self.val)
         ]
 
-    def to_str(self, ipa: bool = False, scansion: bool = False) -> str:
+    def to_string(self, ipa: bool = False, scansion: bool = False) -> str:
+        def _create_lines(tokens, func, current_line="", lines=[]):
+            if not tokens:
+                return lines + [current_line]
+            token_str = func(tokens[0])
+            if len(current_line) + len(token_str) + 4 > self.max_line_width:
+                return _create_lines(
+                    tokens[1:], func, token_str, lines + [current_line]
+                )
+            else:
+                new_line = (
+                    current_line + "    " + token_str if current_line else token_str
+                )
+                return _create_lines(tokens[1:], func, new_line, lines)
+
         join_syllables: Callable[[Token], str] = lambda token: ".".join(
-            map(lambda syl: syl.to_str(ipa), token.syllables)
+            map(lambda syl: syl.to_string(ipa), token.syllables)
         )
-
-        token_syllable_reprs: List[str] = list(map(join_syllables, self.tokens))
-        token_syllable_repr_str: str = reduce(
-            lambda acc, repr: acc + "    " + repr, token_syllable_reprs
-        )
-
+        syllable_lines = _create_lines(self.tokens, join_syllables)
         if scansion:
             join_scansion: Callable[[Token], str] = lambda token: " ".join(
                 map(
-                    lambda syl: syl.scansion_str(ipa).center(len(syl.to_str(ipa))),
+                    lambda syl: syl.scansion_str(ipa).center(len(syl.to_string(ipa))),
                     token.syllables,
                 )
             )
+            scansion_lines = _create_lines(self.tokens, join_scansion)
 
-            token_scansion_reprs: List[str] = list(map(join_scansion, self.tokens))
-            token_scansion_repr_str: str = "\n" + reduce(
-                lambda acc, repr: acc + "    " + repr, token_scansion_reprs
-            )
+            # join syllable_lines and scansion_lines alternatively
+            combined_lines = [
+                val for pair in zip(syllable_lines, scansion_lines) for val in pair
+            ]
+            return "\n".join(combined_lines)
 
-            return token_syllable_repr_str + token_scansion_repr_str
+        return "\n".join(syllable_lines)
 
-        return token_syllable_repr_str
+    def __repr__(self):
+        return self.to_string(ipa=True, scansion=True)

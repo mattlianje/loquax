@@ -27,18 +27,25 @@ class TestDocument(unittest.TestCase):
             self.catilina,
             self.lang,
         )
-        print(doc.to_str(ipa=False, scansion=False))
+        print(doc.to_string(ipa=False, scansion=False))
 
     def test_get_syllables_ipa_only(self):
         doc = Document(
             self.catilina,
             self.lang,
         )
-        print(doc.to_str(ipa=True, scansion=False))
+        print(doc.to_string(ipa=True, scansion=False))
 
     def test_get_syllables_ipa_and_scansion(self):
         doc = Document(
             self.catilina,
             self.lang,
         )
-        print(doc.to_str(ipa=True, scansion=True))
+        print(doc.to_string(ipa=True, scansion=True))
+
+    def test_print_doc(self):
+        doc = Document(
+            self.catilina,
+            self.lang,
+        )
+        print(doc)
