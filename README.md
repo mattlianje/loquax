@@ -36,7 +36,7 @@ Its a zero-dependency framework, with functional style Python 3.10+ features to 
 </p>
 <p align="center">
 <a href="https://mattlianje.pythonanywhere.com/">
-  <img src="data/loquax_latin_online_demo.png" width="500">
+  <img src="data/loquax_latin_online_demo.png" width="600">
 </a>
 </p>
 
