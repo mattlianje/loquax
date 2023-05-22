@@ -76,8 +76,8 @@ Understand unique sounds and their roles within words relative to a `Language`
 from loquax.abstractions import Phoneme
 from loquax.languages import Latin
 
-p = Phoneme('p', Latin)
-print(p.is_consonant and p.is_liquid)  # outputs: True
+r = Phoneme('r', Latin)
+print(r.is_consonant and r.is_liquid)  # outputs: True
 ```
 
 ### Morphological Transformations
@@ -156,21 +156,21 @@ from loquax.abstractions import (
 )
 
 # Let's suppose we have defined custom syllabification rules and constants
-custom_syllabification_rules = PhonemeSyllabificationRuleStore(...)
-custom_constants = Constants(...)
-custom_tokenizer = Tokenizer(...)
-custom_syllable_morphisms = MorphismStore[Syllable]([...])
-custom_phoneme_morphisms = MorphismStore[Phoneme]([...])
+syllabification_rules = PhonemeSyllabificationRuleStore(...)
+constants = Constants(...)
+tokenizer = Tokenizer(...)
+syllable_morphisms = MorphismStore[Syllable]([...])
+phoneme_morphisms = MorphismStore[Phoneme]([...])
 
 # Creation of our language object we can instantiate new `Documents` and other abstractions with
 my_lang = Language(
     language_name='MyLang',
     iso_639_code='myl', # Made-up ISO 639 code for our custom language
-    constants=custom_constants,
-    syllabification_rules=custom_syllabification_rules,
-    syllable_morphisms=custom_syllable_morphisms,
-    phoneme_morphisms=custom_phoneme_morphisms,
-    tokenizer=custom_tokenizer,
+    constants,
+    syllabification_rules,
+    syllable_morphisms,
+    phoneme_morphisms,
+    tokenizer,
 )
 
 ```
