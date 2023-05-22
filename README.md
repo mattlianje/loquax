@@ -85,9 +85,13 @@ print(p.is_consonant and p.is_liquid)  # outputs: True
 
 Loquax allows users to tackle this by defining their own morphisms. 
 
-In this example, we create a `Morphism` that targets syllables with a nucleus and at least one coda, then transforms them into long syllables. 
-The transformation is only applied if the next syllable has an onset of length greater than or equal to one. 
 ```python
+'''
+In this example, we create a `Morphism` that targets syllables with a nucleus and at least one coda, 
+then transforms them into long syllables. The transformation is only applied if the next syllable 
+has an onset of length greater than or equal to one. 
+'''
+
 from loquax.morphisms import Morphism, Rule, RuleSequence
 from loquax.syllables import Syllable
 from dataclasses import replace
@@ -100,18 +104,13 @@ long_position_morphism = Morphism[Syllable](
     ),
 )
 ```
-`MorphismStore` helps you to organize your morphisms ...
+`MorphismStore` lets you organize your morphisms and to apply all transformations in your MorphismStore to a given syllable or phoneme sequence:
 ```python
 from loquax.abstractions import MorphismStore
 
 # Assuming morphism1, morphism2, morphism3 are predefined Morphism objects...
 morphism_store = MorphismStore([morphism1, morphism2, morphism3])
-```
-And more importantly, use of the `apply_all` method to apply all transformations in your MorphismStore to a given syllable or phoneme sequence, in the order they were added to the store.
 
-This way, you can simulate a chain of transformations or even model complex linguistic phenomena with a single function call.
-```python
-# Consider we have a sequence of syllables...
 syllables_sequence = [syllable1, syllable2, syllable3]
 
 # Apply all transformations stored in MorphismStore
