@@ -11,7 +11,7 @@
 </p>
 
 <p align="center">
-Loquax, (Latin for "chatty"), is an <b><i>extensible</i></b> Python library for analyzing and manipulating phonology. With hobbyists and academia in mind, it provides functionality for:
+Loquax, (Latin for "chatty"), is an <b><i>extensible</i></b> Python library for phonological processing. With hobbyists and academia in mind, it provides functionality for:
 </p>
 <p align="center">
 ... 
