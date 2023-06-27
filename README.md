@@ -29,13 +29,13 @@ Loquax, (Latin for "chatty"), is an <b><i>extensible</i></b> Python library for 
 </p>
 <p align="center">
 Its a zero-dependency framework, with functional style Python 3.10+ features to revive the sounds of the past, one phoneme at a time. 
- To see Loquax in action without diving into code, visit <a href="https://mattlianje.pythonanywhere.com"> Loquax Latin Online </a>
+ To see Loquax in action without diving into code, visit <a href="https://nargothrond.xyz/loquax"> Loquax Latin Online </a>
 </p>
 <p align="center">
 
 </p>
 <p align="center">
-<a href="https://mattlianje.pythonanywhere.com/">
+<a href="https://nargothrond.xyz/loquax">
   <img src="data/loquax_latin_online_demo.png" width="600">
 </a>
 </p>
