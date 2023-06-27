@@ -1,40 +1,37 @@
 #!/bin/bash
 
-# The directory of your Flask app on your local machine
-local_app_dir=/path/to/your/app
+# Get the directory of this script
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
-# The directory where you want to deploy your app on the server
-remote_app_dir=/path/to/deployment/dir
+# Define the local path to your Loquax project
+LOCAL_PATH="$DIR/webapp"
 
-ssh root@nargothrond.xyz << 'ENDSSH'
-  sudo apt-get update
-  sudo apt-get upgrade -y
+# Define the remote path to the project
+REMOTE_PATH="/var/www/loquax"
+VENV_PATH="${REMOTE_PATH}/venv"
 
-  # Check if Python 3.10 is installed, if not install it
-  if ! command -v python3.10 &> /dev/null; then
-    sudo apt-get install python3.10 python3.10-venv -y
-  fi
+# Create the remote directory if it doesn't already exist
+ssh root@nargothrond.xyz "mkdir -p $REMOTE_PATH"
 
-  mkdir -p $remote_app_dir
-  cd $remote_app_dir
+# Copy your project to the remote server
+scp -r $LOCAL_PATH/* root@nargothrond.xyz:$REMOTE_PATH
 
-  # Create and activate virtual environment
-  python3.10 -m venv venv
-  source venv/bin/activate
+# SSH into nargothrond and setup the Python environment
+ssh root@nargothrond.xyz "
+    # Navigate to the project directory
+    cd ${REMOTE_PATH} ;
 
-  # Install Flask and loquax in the virtual environment
-  pip install Flask loquax
-ENDSSH
+    # Check if the venv exists, if not create it
+    if [ ! -d \"${VENV_PATH}\" ]; then
+        python3.11 -m venv ${VENV_PATH} || echo 'Failed to create virtual environment' ;
+    else
+        echo 'Virtual environment already exists' ;
+    fi ;
 
-# Copy the Flask app to the server
-rsync -avz $local_app_dir/ root@nargothrond.xyz:$remote_app_dir/
+    # Activate the virtual environment
+    source ${VENV_PATH}/bin/activate ;
 
-ssh $user@$host << 'ENDSSH'
-  cd $remote_app_dir
-
-  # Start the Flask app
-  # TODO restart the systemd service for loquax
-  source venv/bin/activate
-  export FLASK_APP=app.py
-  flask run --host=0.0.0.0 --port=8080 &
-ENDSSH
+    # Refresh the requirements
+    pip install --upgrade pip ;
+    pip install -r requirements.txt ;
+"

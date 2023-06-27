@@ -5,7 +5,7 @@ from loquax.languages import Latin
 app = Flask(__name__)
 
 
-@app.route("/", methods=["GET", "POST"])
+@app.route("/loquax/", methods=["GET", "POST"])
 def index():
     if request.method == "POST":
         data = request.get_json()
@@ -21,4 +21,4 @@ def index():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=False)

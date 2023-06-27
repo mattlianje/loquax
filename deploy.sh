@@ -32,6 +32,10 @@ if ! command -v twine &> /dev/null; then
     pip3 install --upgrade twine
 fi
 
+# Clean up the dist directory
+echo "Cleaning up the dist directory..."
+rm -rf dist/*
+
 # Build the package
 python3 setup.py sdist bdist_wheel
 
