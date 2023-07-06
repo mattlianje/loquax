@@ -23,7 +23,7 @@ ssh root@nargothrond.xyz "
 
     # Check if the venv exists, if not create it
     if [ ! -d \"${VENV_PATH}\" ]; then
-        python3.11 -m venv ${VENV_PATH} || echo 'Failed to create virtual environment' ;
+        python3.10 -m venv ${VENV_PATH} || echo 'Failed to create virtual environment' ;
     else
         echo 'Virtual environment already exists' ;
     fi ;
