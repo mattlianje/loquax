@@ -11,7 +11,7 @@
 </p>
 
 <p align="center">
-Loquax, (Latin for "chatty"), is an <b><i>extensible</i></b> Python library for phonological processing. With hobbyists and academia in mind, it provides functionality for:
+Loquax, (Latin for "chatty"), is an <b><i>extensible</i></b> zero-dependency, FP-style Python library for phonological processing (demo of a subset of Loquax with Classical Latin <a href="https://nargothrond.xyz/loquax"> here </a>). With hobbyists and academia in mind, it provides functionality for:
 </p>
 <p align="center">
 ... 
@@ -26,14 +26,9 @@ Loquax, (Latin for "chatty"), is an <b><i>extensible</i></b> Python library for 
 
 <p align="center">
 ... 
+  
 </p>
-<p align="center">
-Its a zero-dependency framework, with functional style Python 3.10+ features to revive the sounds of the past, one phoneme at a time. 
- To see Loquax in action without diving into code, visit <a href="https://nargothrond.xyz/loquax"> Loquax Latin Online </a>
-</p>
-<p align="center">
 
-</p>
 <p align="center">
 <a href="https://nargothrond.xyz/loquax">
   <img src="data/loquax_latin_online_demo.png" width="600">
