@@ -15,10 +15,10 @@ Loquax, (Latin for "chatty"), is an extensible zero-dependency, FP-style Python 
 - [Scansion](#scansion)
 - [Extensibility](#extensibility)
 
-## Loquax web
+## Loquax Web
 Demo of a subset of loquax's features [here](https://nargothrond.xyz/loquax).
 
-<img src="data/loquax_latin_online_demo.png" width="500">
+<img src="data/loquax_latin_online_demo.png" width="600">
 
 ## Languages
 | Language/Dialect     | IPA | Syllabification | Scansion |
@@ -43,7 +43,7 @@ print(catilinarian_orations.to_string(ipa=True, scansion=True))
 #  u   -   u      -   u     u u   -  u     u  u   -  u     u  u  u  u  -      u   -
 
 ```
-## Syllabification, tokenization
+## Syllabification, Tokenization
 ```python
 print(catilinarian_orations.tokens)
 
@@ -56,7 +56,7 @@ print(catilinarian_orations.tokens[0].syllables)
 # [quo, ūs, que]
 ```
 
-## Phoneme analysis
+## Phoneme Analysis
 Understand unique sounds and their roles within words relative to a `Language`
 ```python
 from loquax.abstractions import Phoneme
