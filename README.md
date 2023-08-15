@@ -6,7 +6,7 @@ A [Classical](https://en.wikipedia.org/wiki/Classical_antiquity) Phonology frame
 [![codecov](https://codecov.io/gh/mattlianje/loquax/branch/main/graph/badge.svg?token=EBMEFP40QL)](https://codecov.io/gh/mattlianje/loquax)
 ![Build status](https://github.com/mattlianje/loquax/actions/workflows/main.yml/badge.svg)
 
-Loquax, (Latin for "chatty"), is an extensible zero-dependency, FP-style Python library for customizable phonological analysis.
+Loquax, (Latin for "chatty"), is an extensible zero-dependency, FP-style Python library for phonological analysis.
 
 - [Syllabification/tokenization](#syllabification-and-tokenization)
 - [Phoneme analysis](#phoneme-analysis)
