@@ -1,4 +1,4 @@
-# Loquax
+# loquax
 
 A [Classical](https://en.wikipedia.org/wiki/Classical_antiquity) Phonology framework
 
