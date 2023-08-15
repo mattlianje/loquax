@@ -17,12 +17,12 @@ Loquax, (Latin for "chatty"), is an <b><i>extensible</i></b> zero-dependency, FP
 ... 
 </p>
 
-- [**Syllabification/Tokenization**](#syllabification-and-tokenization) Break down words into their fundamental phonetic components.
-- [**Phoneme Analysis:**](#phoneme-analysis) Understand the unique sounds and their roles within words.
-- [**Morphological Transformations:**](#morphological-transformations) Observe and manipulate the structure of words.
-- [**IPA Transliteration:**](#ipa-transliteration) Convert text into the International Phonetic Alphabet for universal comprehension.
-- [**Scansion:**](#scansion) Analyze the rhythm of verse in classical poetry, and syllable weight in general.
-- [**Extensibility:**](#extensibility) Build and customize your own language rules for unique or theoretical languages.
+- [**Syllabification/Tokenization**](#syllabification-and-tokenization)
+- [**Phoneme Analysis**](#phoneme-analysis)
+- [**Morphological Transformations**](#morphological-transformations)
+- [**IPA Transliteration**](#ipa-transliteration)
+- [**Scansion**](#scansion)
+- [**Extensibility**](#extensibility)
 
 <p align="center">
 ... 
