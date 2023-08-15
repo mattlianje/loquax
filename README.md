@@ -21,10 +21,10 @@ Demo of a subset of loquax's features [here](https://nargothrond.xyz/loquax).
 <img src="data/loquax_latin_online_demo.png" width="600">
 
 ## Languages
-| Language/Dialect     | IPA | Syllabification | Scansion |
-|----------------------|-----|-----------------|----------|
-| **Latin/Classical**  | ✅  | ✅              | ✅       |
-| **Greek/Classical**  | ❌  | ❌              | ❌       |
+| Language/Dialect       | IPA  | Syllabification | Scansion |
+|------------------------|------|-----------------|----------|
+| **Latin/Classical**    | ✓    | ✓               | ✓        |
+| **Greek/Classical**    | X    | X               | X        |
 
 ## Quickstart
 ```shell
