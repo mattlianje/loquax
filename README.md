@@ -10,12 +10,7 @@
   <img src="https://github.com/mattlianje/loquax/actions/workflows/main.yml/badge.svg" alt="Build status"> 
 </p>
 
-<p align="center">
-Loquax, (Latin for "chatty"), is an <b><i>extensible</i></b> zero-dependency, FP-style Python library for phonological processing (demo of a subset of Loquax with Classical Latin <a href="https://nargothrond.xyz/loquax"> here </a>). With hobbyists and academia in mind, it provides functionality for:
-</p>
-<p align="center">
-... 
-</p>
+**loquax**, (Latin for "chatty"), is an _**extensible**_ zero-dependency, FP-style Python library for phonological processing. With hobbyists and academia in mind, it provides functionality for various phonological processes. Demo of a subset of Loquax with Classical Latin [here](https://nargothrond.xyz/loquax).
 
 - [**Syllabification/Tokenization**](#syllabification-and-tokenization)
 - [**Phoneme Analysis**](#phoneme-analysis)
@@ -24,10 +19,12 @@ Loquax, (Latin for "chatty"), is an <b><i>extensible</i></b> zero-dependency, FP
 - [**Scansion**](#scansion)
 - [**Extensibility**](#extensibility)
 
-<p align="center">
-... 
-  
-</p>
+# languages
+| Language/Dialect       | IPA    | Syllabification | Scansion |
+|:----------------------:|:------:|:---------------:|:--------:|
+| **Latin/Classical**    | ✅     | ✅              | ✅       |
+| **Greek/Classical**    | ❌     | ❌              | ❌       |
+
 
 <p align="center">
 <a href="https://nargothrond.xyz/loquax">
@@ -35,7 +32,7 @@ Loquax, (Latin for "chatty"), is an <b><i>extensible</i></b> zero-dependency, FP
 </a>
 </p>
 
-### Quickstart
+### quickstart
 ```shell
 pip install loquax
 ``` 
@@ -52,7 +49,7 @@ print(catilinarian_orations.to_string(ipa=True, scansion=True))
 #  u   -   u      -   u     u u   -  u     u  u   -  u     u  u  u  u  -      u   -
 
 ```
-### Syllabification and Tokenization
+### syllabification, tokenization
 ```python
 print(catilinarian_orations.tokens)
 
@@ -65,7 +62,7 @@ print(catilinarian_orations.tokens[0].syllables)
 # [quo, ūs, que]
 ```
 
-### Phoneme Analysis
+### phoneme analysis
 Understand unique sounds and their roles within words relative to a `Language`
 ```python
 from loquax.abstractions import Phoneme
@@ -75,7 +72,7 @@ r = Phoneme('r', Latin)
 print(r.is_consonant and r.is_liquid)  # outputs: True
 ```
 
-### Morphological Transformations
+### morphology
 **The central problem of phonology** is that linguistic units have changing features depending on their context and neighbours. 
 
 Loquax allows users to tackle this by defining their own morphisms. 
@@ -114,7 +111,7 @@ transformed_sequence = morphism_store.apply_all(syllables_sequence)
 # transformed_sequence now holds the syllables transformed by morphism1, morphism2, morphism3 in order.
 ```
 
-### IPA Transliteration
+### ipa
 To convert text into the International Phonetic Alphabet for universal comprehension, 
 you can use the `to_string` function with `ipa=True`:
 ```python
@@ -124,7 +121,7 @@ print(catilinarian_orations.to_string(ipa=True))
 # kʷɔ.uːs.kʷɛ    tan.dɛm    a.bʊ.teː.rɛ    ka.tɪ.liː.na    pa.tɪ.ɛn.tɪ.aː    nɔs.traː
 ```
 
-### Scansion
+### scansion
 Scansion is the process of marking the stresses in a poem, and dividing the lines into feet. 
 It's a critical part of the study and enjoyment of classical verse, like in Latin and Ancient Greek poetry. 
 Loquax makes it easy to integrate scansion into your language analysis pipeline.
