@@ -10,27 +10,26 @@
   <img src="https://github.com/mattlianje/loquax/actions/workflows/main.yml/badge.svg" alt="Build status"> 
 </p>
 
-**loquax**, (Latin for "chatty"), is an _**extensible**_ zero-dependency, FP-style Python library for phonological processing. With hobbyists and academia in mind, it provides functionality for various phonological processes. Demo of a subset of Loquax with Classical Latin [here](https://nargothrond.xyz/loquax).
+**loquax**, (Latin for "chatty"), is an _**extensible**_ zero-dependency, FP-style Python library for customizable phonological processing and analysis.
 
-- [**Syllabification/Tokenization**](#syllabification-and-tokenization)
-- [**Phoneme Analysis**](#phoneme-analysis)
-- [**Morphological Transformations**](#morphological-transformations)
-- [**IPA Transliteration**](#ipa-transliteration)
-- [**Scansion**](#scansion)
-- [**Extensibility**](#extensibility)
+- [syllabification/tokenization](#syllabification-and-tokenization)
+- [phoneme analysis](#phoneme-analysis)
+- [morphological transformations](#morphological-transformations)
+- [IPA transliteration](#ipa-transliteration)
+- [scansion](#scansion)
+- [extensibility](#extensibility)
 
-# languages
+### loquax web
+Demo of a subset of loquax's features [here](https://nargothrond.xyz/loquax).
+<a href="https://nargothrond.xyz/loquax">
+  <img src="data/loquax_latin_online_demo.png" width="500">
+</a>
+
+### languages
 | Language/Dialect       | IPA    | Syllabification | Scansion |
 |:----------------------:|:------:|:---------------:|:--------:|
 | **Latin/Classical**    | ✅     | ✅              | ✅       |
 | **Greek/Classical**    | ❌     | ❌              | ❌       |
-
-
-<p align="center">
-<a href="https://nargothrond.xyz/loquax">
-  <img src="data/loquax_latin_online_demo.png" width="600">
-</a>
-</p>
 
 ### quickstart
 ```shell
@@ -135,7 +134,7 @@ print(catilinarian_orations.to_string(scansion=True))
 #  u  -   u      -   u     u u  -  u     u  u  -  u     u  u  u  u  -     u   -
 ```
 
-### Extensibility
+### extensibility
 Loquax allows for extensibility, so you can build and customize your own language rules 
 for unique or theoretical languages. Here's an example of how to define custom rules and apply them:
 ```python
