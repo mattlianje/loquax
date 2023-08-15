@@ -1,16 +1,12 @@
-<h1 align="center">loquax</h1>
-<p align="center">
-</p>
-<p align="center">A <i><a href="https://en.wikipedia.org/wiki/Classical_antiquity" target="_blank">Classical</a></i> Phonology framework</p>
-<p align="center">
-  <a href="https://github.com/psf/black"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg"></a>
-  <a href="https://codecov.io/gh/mattlianje/loquax" >
-    <img src="https://codecov.io/gh/mattlianje/loquax/branch/main/graph/badge.svg?token=EBMEFP40QL"/>
-  </a>
-  <img src="https://github.com/mattlianje/loquax/actions/workflows/main.yml/badge.svg" alt="Build status"> 
-</p>
+# Loquax
 
-**Loquax**, (Latin for "chatty"), is an extensible zero-dependency, FP-style Python library for customizable phonological analysis.
+A [Classical](https://en.wikipedia.org/wiki/Classical_antiquity) Phonology framework
+
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![codecov](https://codecov.io/gh/mattlianje/loquax/branch/main/graph/badge.svg?token=EBMEFP40QL)](https://codecov.io/gh/mattlianje/loquax)
+![Build status](https://github.com/mattlianje/loquax/actions/workflows/main.yml/badge.svg)
+
+Loquax, (Latin for "chatty"), is an extensible zero-dependency, FP-style Python library for customizable phonological analysis.
 
 - [Syllabification/tokenization](#syllabification-and-tokenization)
 - [Phoneme analysis](#phoneme-analysis)
@@ -25,10 +21,10 @@ Demo of a subset of loquax's features [here](https://nargothrond.xyz/loquax).
 <img src="data/loquax_latin_online_demo.png" width="500">
 
 ## Languages
-| Language/Dialect       | IPA    | Syllabification | Scansion |
-|:----------------------:|:------:|:---------------:|:--------:|
-| **Latin/Classical**    | ✅     | ✅              | ✅       |
-| **Greek/Classical**    | ❌     | ❌              | ❌       |
+| Language/Dialect     | IPA | Syllabification | Scansion |
+|----------------------|-----|-----------------|----------|
+| **Latin/Classical**  | ✅  | ✅              | ✅       |
+| **Greek/Classical**  | ❌  | ❌              | ❌       |
 
 ## Quickstart
 ```shell
