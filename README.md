@@ -1,16 +1,14 @@
+<h1 align="center">loquax</h1>
+
+<p align="center">A <a href="https://en.wikipedia.org/wiki/Classical_antiquity">Classical</a> Phonology framework</p>
+
 <p align="center">
-
-# loquax
-
-A [Classical](https://en.wikipedia.org/wiki/Classical_antiquity) Phonology framework
-
-[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
-[![codecov](https://codecov.io/gh/mattlianje/loquax/branch/main/graph/badge.svg?token=EBMEFP40QL)](https://codecov.io/gh/mattlianje/loquax)
-![Build status](https://github.com/mattlianje/loquax/actions/workflows/main.yml/badge.svg)
-
-Loquax, (Latin for "chatty"), is an extensible, zero-dependency, FP-style Python library for phonological analysis.
-
+    <a href="https://github.com/psf/black"><img src="https://img.shields.io/badge/code%20style-black-000000.svg" alt="Code style: black"></a>
+    <a href="https://codecov.io/gh/mattlianje/loquax"><img src="https://codecov.io/gh/mattlianje/loquax/branch/main/graph/badge.svg?token=EBMEFP40QL" alt="codecov"></a>
+    <img src="https://github.com/mattlianje/loquax/actions/workflows/main.yml/badge.svg" alt="Build status">
 </p>
+
+<p align="center">Loquax, (Latin for "chatty"), is an extensible, zero-dependency, FP-style Python library for phonological analysis.</p>
 
 - [Syllabification/tokenization](#syllabification-and-tokenization)
 - [Phoneme analysis](#phoneme-analysis)
