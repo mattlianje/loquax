@@ -1,3 +1,5 @@
+<p align="center">
+
 # loquax
 
 A [Classical](https://en.wikipedia.org/wiki/Classical_antiquity) Phonology framework
@@ -7,6 +9,8 @@ A [Classical](https://en.wikipedia.org/wiki/Classical_antiquity) Phonology frame
 ![Build status](https://github.com/mattlianje/loquax/actions/workflows/main.yml/badge.svg)
 
 Loquax, (Latin for "chatty"), is an extensible, zero-dependency, FP-style Python library for phonological analysis.
+
+</p>
 
 - [Syllabification/tokenization](#syllabification-and-tokenization)
 - [Phoneme analysis](#phoneme-analysis)
