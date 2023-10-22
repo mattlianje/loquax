@@ -10,17 +10,16 @@
 
 <p align="center">Loquax, (Latin for "chatty"), is an extensible, zero-dependency, FP-style Python library for phonological analysis.</p>
 
+![loquax](data/catilina.gif)
+[here](https://nargothrond.xyz/loquax).
+
+## Features
 - [Syllabification/tokenization](#syllabification-and-tokenization)
 - [Phoneme analysis](#phoneme-analysis)
 - [Morphological transformations](#morphological-transformations)
 - [IPA transliteration](#ipa-transliteration)
 - [Scansion](#scansion)
 - [Extensibility](#extensibility)
-
-## Loquax Web
-Demo of a subset of loquax's features [here](https://nargothrond.xyz/loquax).
-
-<img src="data/loquax_latin_online_demo.png" width="600">
 
 ## Languages
 | Language/Dialect       | IPA  | Syllabification | Scansion |
