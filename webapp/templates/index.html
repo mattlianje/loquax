@@ -1,78 +1,78 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title>Loquax</title>
-    <link rel="stylesheet" href="https://latex.now.sh/style.min.css"/>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
-</head>
-<style>
-    textarea {
-        height: 200px;
-        resize: none;
-        white-space: pre;
-        overflow-wrap: normal;
-    }
-
-    .option-section {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        margin: 0 2%;
-    }
-    button {
-        margin-top: 20px;
-        padding: 5px;
-        border: none;
-        background-color: #9f8975;
-        color: #f9f6f2;
-        font-weight: bold;
-        cursor: pointer;
-        border-radius: 5px;
-        align-self: flex-end;
-    }
-    button:hover {
-        background-color: #8b7559;
-    }
-    body {
+    <head>
+        <title>Loquax</title>
+        <link rel="stylesheet" href="https://latex.now.sh/style.min.css"/>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
+    </head>
+    <style>
+        textarea {
+            height: 200px;
+            resize: none;
+            white-space: pre;
+            overflow-wrap: normal;
+        }
+        .option-section {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 0 2%;
+        }
+        button {
+            margin-top: 20px;
+            padding: 5px;
+            border: none;
+            background-color: #9f8975;
+            color: #f9f6f2;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 5px;
+            align-self: flex-end;
+        }
+        button:hover {
+            background-color: #8b7559;
+        }
+        body {
             font-family: 'Roboto Mono', monospace;
         }
-    a {
-        text-decoration: none !important;  /* Removes underline */
-    }
+        a {
+            text-decoration: none !important;  /* Removes underline */
+        }
+    </style>
 
+    <body>
+        <h1>loquax</h1>
+        <p style="text-align:center; margin-bottom:30px; margin-top:10px;">A Classical Phonology framework. Source code and rules
+            <a href="https://github.com/mattlianje/loquax">here</a></p>
+        <div id="content">
+            <textarea id="inputText" placeholder="Enter your Latin text here..." maxlength="400"></textarea>
+            <textarea id="outputText" readonly placeholder="Annotated text will appear here..."></textarea>
+        </div>
+        <label>
+            <input type="checkbox" id="with_scansion"> Scansion
+        </label>
+        <label>
+            <input type="checkbox" id="with_ipa"> IPA
+        </label>
+        <button onclick="translateText()">Translate</button>
+        <div id="translation" style="white-space: pre; overflow-wrap: normal;"></div>
+        <script>
+        async function translateText() {
+            const text = document.getElementById("inputText").value;
+            const with_scansion = document.getElementById("with_scansion").checked;
+            const with_ipa = document.getElementById("with_ipa").checked;
 
-</style>
-</head>
-<body>
-<h1>loquax</h1>
-<p style="text-align:center; margin-bottom:30px; margin-top:10px;">A Classical Phonology framework. Source code and rules
-    <a href="https://github.com/mattlianje/loquax">here</a></p>
-<div id="content">
-    <textarea id="inputText" placeholder="Enter your Latin text here..." maxlength="400"></textarea>
-    <textarea id="outputText" readonly placeholder="Annotated text will appear here..."></textarea>
-</div>
-<label><input type="checkbox" id="with_scansion"> Scansion</label>
-<label><input type="checkbox" id="with_ipa"> IPA</label>
-<button onclick="translateText()">Translate</button>
-<div id="translation" style="white-space: pre; overflow-wrap: normal;"></div>
-<!--<script src="{{ url_for('static', filename='main.js') }}"></script>-->
-    <script>
-    async function translateText() {
-        const text = document.getElementById("inputText").value;
-        const with_scansion = document.getElementById("with_scansion").checked;
-        const with_ipa = document.getElementById("with_ipa").checked;
+            const response = await fetch("/loquax/", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ text: text, with_scansion: with_scansion, with_ipa: with_ipa }),
+            });
 
-        const response = await fetch("/loquax/", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ text: text, with_scansion: with_scansion, with_ipa: with_ipa }),
-        });
+            const data = await response.json();
 
-        const data = await response.json();
-
-        document.getElementById("outputText").value = data.translation;
-    }
-    </script>
-</body>
+            document.getElementById("outputText").value = data.translation;
+        }
+        </script>
+    </body>
 </html>

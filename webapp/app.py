@@ -4,7 +4,6 @@ from loquax.languages import Latin
 
 app = Flask(__name__)
 
-
 @app.route("/", methods=["GET", "POST"])
 @app.route("/loquax", methods=["GET", "POST"])
 def index():
@@ -19,12 +18,3 @@ def index():
         return jsonify({"translation": translation})
 
     return render_template("index.html")
-
-
-# from flask import Flask
-#
-# app = Flask(__name__)
-#
-# @app.route("/")
-# def hello_world():
-#     return "Hello, World!"

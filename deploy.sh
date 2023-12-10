@@ -1,43 +1,71 @@
-i#!/bin/bash
+#!/bin/bash
 
-# Get the latest version of the package
-current_version=$(python3 setup.py --version)
-echo "Current version: $current_version"
+get_current_version() {
+    python3 setup.py --version
+}
 
-# Ask user for the part to bump
-read -p "Which part to bump (major/minor/patch)? " part
+ask_version_bump_part() {
+    read -p "Which part to bump (major/minor/patch)? " part
+    echo $part
+}
 
-# Check the input
-if [[ "$part" != "major" && "$part" != "minor" && "$part" != "patch" ]]; then
-    echo "Invalid part. Please enter 'major', 'minor' or 'patch'."
-    exit 1
-fi
+validate_input() {
+    if ! [[ "$1" =~ ^(major|minor|patch)$ ]]; then
+        echo -e "Invalid input. Please enter 'major', 'minor', or 'patch'."
+        exit 1
+    fi
+}
 
-# Install bumpversion if not installed
-if ! command -v bumpversion &> /dev/null; then
-    echo "bumpversion not found. Installing..."
-    pip3 install --upgrade bumpversion
-fi
+install_bumpversion() {
+    if ! command -v bumpversion &> /dev/null; then
+        echo "Installing bumpversion..."
+        pip3 install --upgrade bumpversion
+    fi
+}
 
-# Bump the version
-bumpversion --current-version $current_version $part setup.py
+bump_version() {
+    bumpversion --current-version $1 $2 setup.py
+}
 
-# Get the new version
-new_version=$(python3 setup.py --version)
-echo "New version: $new_version"
+install_twine() {
+    if ! command -v twine &> /dev/null; then
+        echo "Installing twine..."
+        pip3 install --upgrade twine
+    fi
+}
 
-# Install twine if not installed
-if ! command -v twine &> /dev/null; then
-    echo "twine not found. Installing..."
-    pip3 install --upgrade twine
-fi
+build_package() {
+    echo "Cleaning up the dist directory..."
+    rm -rf dist/*
+    echo "Building the package..."
+    python3 setup.py sdist bdist_wheel
+}
 
-# Clean up the dist directory
-echo "Cleaning up the dist directory..."
-rm -rf dist/*
+upload_package() {
+    echo "Uploading the package to PyPI..."
+    twine upload dist/*
+}
 
-# Build the package
-python3 setup.py sdist bdist_wheel
+main() {
+    echo -e "\n Package Version Bumper and Uploader \n"
 
-# Upload the package to PyPI
-twine upload dist/*
+    local current_version=$(get_current_version)
+    echo "Current version: $current_version"
+
+    local part=$(ask_version_bump_part)
+    validate_input $part
+
+    install_bumpversion
+    bump_version $current_version $part
+
+    local new_version=$(get_current_version)
+    echo "New version: $new_version"
+
+    install_twine
+    build_package
+    upload_package
+
+    echo -e "\n Package uploaded successfully! \n"
+}
+
+main
