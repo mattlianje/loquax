@@ -11,6 +11,8 @@ class LatinTokenizer(Tokenizer):
     """
 
     def tokenize(self, text: str) -> List[str]:
+        # This function takes multiple function arguments and composes
+        # them into a single function. The composed function applies the given functions in sequence.
         compose = lambda *functions: reduce(
             lambda f, g: lambda x: f(g(x)), functions, lambda x: x
         )
