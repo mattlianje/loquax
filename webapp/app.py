@@ -4,6 +4,7 @@ from loquax.languages import Latin
 
 app = Flask(__name__)
 
+
 @app.route("/", methods=["GET", "POST"])
 @app.route("/loquax", methods=["GET", "POST"])
 def index():
@@ -13,7 +14,9 @@ def index():
         with_scansion = data.get("with_scansion", False)
         with_ipa = data.get("with_ipa", False)
 
-        translation = Document(text, Latin, 75).to_string(ipa=with_ipa, scansion=with_scansion)
+        translation = Document(text, Latin, 75).to_string(
+            ipa=with_ipa, scansion=with_scansion
+        )
 
         return jsonify({"translation": translation})
 
