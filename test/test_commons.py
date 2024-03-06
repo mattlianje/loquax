@@ -1,16 +1,12 @@
-import unittest
+import pytest
 
 from loquax.abstractions import Phoneme
 from loquax.text_processing.commons import has_macron
 from loquax.languages import Latin
 
-
-class TestAccentDetection(unittest.TestCase):
-    def setUp(self):
-        self.lang = Latin
-
-    def test_macron(self):
-        phoneme_with_macron = Phoneme("ā", self.lang)
-        phoneme_without_macron = Phoneme("a", self.lang)
-        self.assertTrue(has_macron(phoneme_with_macron))
-        self.assertFalse(has_macron(phoneme_without_macron))
+@pytest.mark.parametrize("phoneme_input,expected_output", [
+    (Phoneme("ā", Latin), True),
+    (Phoneme("a", Latin), False),
+])
+def test_macron(phoneme_input, expected_output):
+    assert has_macron(phoneme_input) is expected_output
