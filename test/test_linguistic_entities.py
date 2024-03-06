@@ -12,42 +12,50 @@ from loquax.abstractions import (
     Phoneme,
 )
 
+
 @pytest.fixture
 def lang():
     return Latin
+
 
 @pytest.fixture
 def phonemes():
     lang = Latin
     return {
-        'a': Phoneme("a", lang),
-        'b': Phoneme("b", lang),
-        'c': Phoneme("c", lang),
-        'd': Phoneme("d", lang),
+        "a": Phoneme("a", lang),
+        "b": Phoneme("b", lang),
+        "c": Phoneme("c", lang),
+        "d": Phoneme("d", lang),
     }
+
 
 @pytest.fixture
 def morphisms(phonemes):
     morphism_1 = Morphism[Phoneme](
-        target=Rule[Phoneme](check_fn=lambda p: p == phonemes['b']),
-        transformation=lambda p: phonemes['d'] if p == phonemes['b'] else p,
-        prefix=RuleSequence[Phoneme]([Rule[Phoneme](check_fn=lambda p: p == phonemes['a'])]),
-        suffix=RuleSequence[Phoneme]([Rule[Phoneme](check_fn=lambda p: p == phonemes['c'])]),
+        target=Rule[Phoneme](check_fn=lambda p: p == phonemes["b"]),
+        transformation=lambda p: phonemes["d"] if p == phonemes["b"] else p,
+        prefix=RuleSequence[Phoneme](
+            [Rule[Phoneme](check_fn=lambda p: p == phonemes["a"])]
+        ),
+        suffix=RuleSequence[Phoneme](
+            [Rule[Phoneme](check_fn=lambda p: p == phonemes["c"])]
+        ),
     )
     morphism_2 = Morphism[Phoneme](
-        target=Rule[Phoneme](check_fn=lambda p: p == phonemes['d']),
-        transformation=lambda p: phonemes['a'] if p == phonemes['d'] else p,
-        prefix=RuleSequence[Phoneme]([Rule[Phoneme](check_fn=lambda p: p == phonemes['a'])]),
+        target=Rule[Phoneme](check_fn=lambda p: p == phonemes["d"]),
+        transformation=lambda p: phonemes["a"] if p == phonemes["d"] else p,
+        prefix=RuleSequence[Phoneme](
+            [Rule[Phoneme](check_fn=lambda p: p == phonemes["a"])]
+        ),
     )
     return morphism_1, morphism_2
+
 
 @pytest.fixture
 def rule_store():
     return PhonemeSyllabificationRuleStore(
         rules=[
-            RuleSequence[Phoneme](
-                [Rule[Phoneme](val="c"), Rule[Phoneme](val="ae")]
-            ),
+            RuleSequence[Phoneme]([Rule[Phoneme](val="c"), Rule[Phoneme](val="ae")]),
             RuleSequence[Phoneme]([Rule[Phoneme](val="t"), Rule[Phoneme](val="i")]),
             RuleSequence[Phoneme](
                 [
@@ -59,18 +67,21 @@ def rule_store():
         ]
     )
 
+
 @pytest.mark.usefixtures("lang", "phonemes", "morphisms")
 @pytest.mark.morphism
 class TestMorphism:
-    def test_apply_with_prefix_suffix(self,phonemes):
-        phoneme_a, phoneme_b, phoneme_c = phonemes['a'], phonemes['b'], phonemes['c']
+    def test_apply_with_prefix_suffix(self, phonemes):
+        phoneme_a, phoneme_b, phoneme_c = phonemes["a"], phonemes["b"], phonemes["c"]
         seq = [phoneme_a, phoneme_b, phoneme_c]
 
         morphism = Morphism[Phoneme](
             target=Rule[Phoneme](val=phoneme_b.val),
             transformation=Phoneme("d", phoneme_b.lang),
             prefix=RuleSequence[Phoneme]([Rule[Phoneme](val="a")]),
-            suffix=RuleSequence[Phoneme]([Rule[Phoneme](check_fn=lambda p: p == phoneme_c)]),
+            suffix=RuleSequence[Phoneme](
+                [Rule[Phoneme](check_fn=lambda p: p == phoneme_c)]
+            ),
         )
 
         result = morphism.apply(seq)
@@ -78,24 +89,24 @@ class TestMorphism:
         assert result == expected
 
     def test_apply_with_no_prefix_suffix(self, phonemes):
-        seq = [phonemes['a'], phonemes['b'], phonemes['c']]
+        seq = [phonemes["a"], phonemes["b"], phonemes["c"]]
 
         morphism = Morphism[Phoneme](
-            target=Rule[Phoneme](check_fn=lambda p: p == phonemes['b']),
-            transformation=phonemes['d'],
+            target=Rule[Phoneme](check_fn=lambda p: p == phonemes["b"]),
+            transformation=phonemes["d"],
         )
 
         result = morphism.apply(seq)
-        expected = [phonemes['a'], phonemes['d'], phonemes['c']]
+        expected = [phonemes["a"], phonemes["d"], phonemes["c"]]
         assert result == expected
 
     def test_store_apply_morphisms_with_prefix_suffix(self, phonemes, morphisms):
-        seq = [phonemes['a'], phonemes['b'], phonemes['c']]
+        seq = [phonemes["a"], phonemes["b"], phonemes["c"]]
         morphism_1, morphism_2 = morphisms
 
         morphism_store = MorphismStore(morphisms=[morphism_1, morphism_2])
         result = morphism_store.apply_all(seq)
-        expected = [phonemes['a'], phonemes['a'], phonemes['c']]
+        expected = [phonemes["a"], phonemes["a"], phonemes["c"]]
         assert result == expected
 
 
@@ -169,11 +180,18 @@ class TestSyllabification:
 
         def test_apply_rules_multiple_matches(rule_store, lang):
             phonemes = [
-                Phoneme("s", lang), Phoneme("c", lang), Phoneme("ae", lang),
-                Phoneme("t", lang), Phoneme("i", lang)
+                Phoneme("s", lang),
+                Phoneme("c", lang),
+                Phoneme("ae", lang),
+                Phoneme("t", lang),
+                Phoneme("i", lang),
             ]
             before, match = rule_store.apply_all(phonemes)
-            assert before == [Phoneme("s", lang), Phoneme("c", lang), Phoneme("ae", lang)]
+            assert before == [
+                Phoneme("s", lang),
+                Phoneme("c", lang),
+                Phoneme("ae", lang),
+            ]
             assert match == [Phoneme("t", lang), Phoneme("i", lang)]
 
     def test_syllable_transformation_store(self):
@@ -234,4 +252,3 @@ class TestSyllabification:
             )
             transformed_s = latin_syllable_morphisms.apply_all([s, s2])[0]
             assert transformed_s.is_long == True
-
