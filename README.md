@@ -73,12 +73,6 @@ print(r.is_consonant and r.is_liquid)  # outputs: True
 Loquax allows users to tackle this by defining their own morphisms. 
 
 ```python
-'''
-In this example, we create a `Morphism` that targets syllables with a nucleus and at least one coda, 
-then transforms them into long syllables. The transformation is only applied if the next syllable 
-has an onset of length greater than or equal to one. 
-'''
-
 from loquax.morphisms import Morphism, Rule, RuleSequence
 from loquax.syllables import Syllable
 from dataclasses import replace
@@ -95,15 +89,9 @@ long_position_morphism = Morphism[Syllable](
 ```python
 from loquax.abstractions import MorphismStore
 
-# Assuming morphism1, morphism2, morphism3 are predefined Morphism objects...
 morphism_store = MorphismStore([morphism1, morphism2, morphism3])
-
 syllables_sequence = [syllable1, syllable2, syllable3]
-
-# Apply all transformations stored in MorphismStore
 transformed_sequence = morphism_store.apply_all(syllables_sequence)
-
-# transformed_sequence now holds the syllables transformed by morphism1, morphism2, morphism3 in order.
 ```
 
 ## Ipa
@@ -134,7 +122,6 @@ print(catilinarian_orations.to_string(scansion=True))
 Loquax allows for extensibility, so you can build and customize your own language rules 
 for unique or theoretical languages. Here's an example of how to define custom rules and apply them:
 ```python
-# Create your own custom language with unique rules and phonemes
 from loquax.languages import Latin
 from loquax.abstractions import (
     PhonemeSyllabificationRuleStore, Language, 
@@ -142,17 +129,15 @@ from loquax.abstractions import (
     Syllable, Morphism, Phoneme
 )
 
-# Let's suppose we have defined custom syllabification rules and constants
 syllabification_rules = PhonemeSyllabificationRuleStore(...)
 constants = Constants(...)
 tokenizer = Tokenizer(...)
 syllable_morphisms = MorphismStore[Syllable]([...])
 phoneme_morphisms = MorphismStore[Phoneme]([...])
 
-# Creation of our language object we can instantiate new `Documents` and other abstractions with
 my_lang = Language(
     language_name='MyLang',
-    iso_639_code='myl', # Made-up ISO 639 code for our custom language
+    iso_639_code='myl', 
     constants,
     syllabification_rules,
     syllable_morphisms,
