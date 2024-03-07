@@ -110,145 +110,156 @@ class TestMorphism:
         assert result == expected
 
 
+'''
+syllable logic must ...
+'''
 @pytest.mark.usefixtures("lang", "rule_store")
 @pytest.mark.syllabification
 class TestSyllabification:
-    def test_syllables(self):
-        def test_onset_nucleus_coda(lang):
-            phonemes = [
-                Phoneme("c", lang),
+    '''
+    ... test syllables
+    '''
+    def test_onset_nucleus_coda(self, lang):
+        phonemes = [
+            Phoneme("c", lang),
+            Phoneme("a", lang),
+            Phoneme("t", lang),
+        ]
+        syllable = Syllable(phonemes, lang)
+        assert syllable.onset == [Phoneme("c", lang)]
+        assert syllable.nucleus == [Phoneme("a", lang)]
+        assert syllable.coda == [Phoneme("t", lang)]
+
+    def test_onset_nucleus(self, lang):
+        phonemes = [Phoneme("b", lang), Phoneme("a", lang)]
+        syllable = Syllable(phonemes, lang)
+        assert syllable.onset == [Phoneme("b", lang)]
+        assert syllable.nucleus == [Phoneme("a", lang)]
+        assert syllable.coda == []
+
+    def test_nucleus_coda(self, lang):
+        phonemes = [Phoneme("i", lang), Phoneme("t", lang)]
+        syllable = Syllable(phonemes, lang)
+        assert syllable.onset == []
+        assert syllable.nucleus == [Phoneme("i", lang)]
+        assert syllable.coda == [Phoneme("t", lang)]
+
+    def test_nucleus(self, lang):
+        phonemes = [Phoneme("a", lang)]
+        syllable = Syllable(phonemes, lang)
+        assert syllable.onset == []
+        assert syllable.nucleus == [Phoneme("a", lang)]
+        assert syllable.coda == []
+
+    def test_no_vowels(self, lang):
+        phonemes = [Phoneme("s", lang), Phoneme("t", lang)]
+        syllable = Syllable(phonemes, lang)
+        assert syllable.onset == [Phoneme("s", lang), Phoneme("t", lang)]
+        assert syllable.nucleus == None
+        assert syllable.coda == None
+
+    '''
+    ... test syllable_rule_store
+    '''
+    def test_apply_rules_no_match(self, rule_store, lang):
+        phonemes = [Phoneme("a", lang)]
+        before, match = rule_store.apply_all(phonemes)
+        assert before == []
+        assert match == []
+
+    def test_apply_rules_no_match_no_cons(self, rule_store, lang):
+        phonemes = []
+        before, match = rule_store.apply_all(phonemes)
+        assert before == []
+        assert match == []
+
+    def test_apply_rules_single_match(self, rule_store, lang):
+        phonemes = [Phoneme("s", lang), Phoneme("t", lang), Phoneme("i", lang)]
+        before, match = rule_store.apply_all(phonemes)
+        assert before == [Phoneme("s", lang)]
+        assert match == [Phoneme("t", lang), Phoneme("i", lang)]
+
+    def test_apply_rules_single_match_2(self, rule_store, lang):
+        phonemes = [Phoneme("p", lang), Phoneme("r", lang)]
+        before, match = rule_store.apply_all(phonemes)
+        assert before == []
+        assert match == [Phoneme("p", lang), Phoneme("r", lang)]
+
+    def test_apply_rules_multiple_matches(self, rule_store, lang):
+        phonemes = [
+            Phoneme("s", lang),
+            Phoneme("c", lang),
+            Phoneme("ae", lang),
+            Phoneme("t", lang),
+            Phoneme("i", lang),
+        ]
+        before, match = rule_store.apply_all(phonemes)
+        assert before == [
+            Phoneme("s", lang),
+            Phoneme("c", lang),
+            Phoneme("ae", lang),
+        ]
+        assert match == [Phoneme("t", lang), Phoneme("i", lang)]
+
+    '''
+    ... test syllable_transformation_store
+    '''
+    def test_syllable_transformation_store(self, lang):
+        def append_x_transformation(syllable: Syllable) -> Syllable:
+            new_phonemes = syllable.phonemes + [Phoneme("x", syllable.lang)]
+            return Syllable(new_phonemes, syllable.lang, syllable.is_long)
+
+        def append_z_transformation(syllable: Syllable) -> Syllable:
+            new_phonemes = syllable.phonemes + [Phoneme("z", syllable.lang)]
+            return Syllable(new_phonemes, syllable.lang, syllable.is_long)
+
+        syllables = [
+            Syllable([Phoneme("b", lang)], lang),
+            Syllable([Phoneme("a", lang)], lang),
+            Syllable([Phoneme("c", lang)], lang),
+            Syllable([Phoneme("a", lang)], lang),
+        ]
+
+        store = MorphismStore[Syllable](
+            [
+                Morphism[Syllable](
+                    target=Rule[Syllable](val="a"),
+                    prefix=RuleSequence[Syllable]([Rule[Syllable](val="b")]),
+                    suffix=RuleSequence[Syllable]([Rule[Syllable](val="c")]),
+                    transformation=append_x_transformation,
+                ),
+                Morphism[Syllable](
+                    target=Rule[Syllable](val="a"),
+                    prefix=RuleSequence[Syllable]([Rule[Syllable](val="c")]),
+                    suffix=RuleSequence[Syllable]([]),
+                    transformation=append_z_transformation,
+                ),
+            ]
+        )
+
+        new_syllables = store.apply_all(syllables)
+        assert new_syllables[0].val == "b"
+        assert new_syllables[1].val == "ax"
+        assert new_syllables[2].val == "c"
+        assert new_syllables[3].val == "az"
+
+    '''
+    ... test syllable quantities
+    '''
+    def test_long_nature_morphism(self, lang):
+        s = Syllable([Phoneme("ā", lang=lang)], lang=lang)
+        transformed_s = latin_syllable_morphisms.apply_all([s])[0]
+        assert transformed_s.is_long == True
+
+    def test_long_position_morphism(selfo, lang):
+        s = Syllable([Phoneme("a", lang=lang)], lang=lang)
+        s2 = Syllable(
+            [
+                Phoneme("c", lang=lang),
+                Phoneme("c", lang=lang),
                 Phoneme("a", lang),
-                Phoneme("t", lang),
-            ]
-            syllable = Syllable(phonemes, lang)
-            assert syllable.onset == [Phoneme("c", lang)]
-            assert syllable.nucleus == [Phoneme("a", lang)]
-            assert syllable.coda == [Phoneme("t", lang)]
-
-        def test_onset_nucleus(lang):
-            phonemes = [Phoneme("b", lang), Phoneme("a", lang)]
-            syllable = Syllable(phonemes, lang)
-            assert syllable.onset == [Phoneme("b", lang)]
-            assert syllable.nucleus == [Phoneme("a", lang)]
-            assert syllable.coda == []
-
-        def test_nucleus_coda(lang):
-            phonemes = [Phoneme("i", lang), Phoneme("t", lang)]
-            syllable = Syllable(phonemes, lang)
-            assert syllable.onset == []
-            assert syllable.nucleus == [Phoneme("i", lang)]
-            assert syllable.coda == [Phoneme("t", lang)]
-
-        def test_nucleus(lang):
-            phonemes = [Phoneme("a", lang)]
-            syllable = Syllable(phonemes, lang)
-            assert syllable.onset == []
-            assert syllable.nucleus == [Phoneme("a", lang)]
-            assert syllable.coda == []
-
-        def test_no_vowels(lang):
-            phonemes = [Phoneme("s", lang), Phoneme("t", lang)]
-            syllable = Syllable(phonemes, lang)
-            assert syllable.onset == [Phoneme("s", lang), Phoneme("t", lang)]
-            assert syllable.nucleus == None
-            assert syllable.coda == None
-
-    def test_syllable_rule_store(self):
-        def test_apply_rules_no_match(rule_store, lang):
-            phonemes = [Phoneme("a", lang)]
-            before, match = rule_store.apply_all(phonemes)
-            assert before == []
-            assert match == []
-
-        def test_apply_rules_no_match_no_cons(rule_store, lang):
-            phonemes = []
-            before, match = rule_store.apply_all(phonemes)
-            assert before == []
-            assert match == []
-
-        def test_apply_rules_single_match(rule_store, lang):
-            phonemes = [Phoneme("s", lang), Phoneme("t", lang), Phoneme("i", lang)]
-            before, match = rule_store.apply_all(phonemes)
-            assert before == [Phoneme("s", lang)]
-            assert match == [Phoneme("t", lang), Phoneme("i", lang)]
-
-        def test_apply_rules_single_match_2(rule_store, lang):
-            phonemes = [Phoneme("p", lang), Phoneme("r", lang)]
-            before, match = rule_store.apply_all(phonemes)
-            assert before == []
-            assert match == [Phoneme("p", lang), Phoneme("r", lang)]
-
-        def test_apply_rules_multiple_matches(rule_store, lang):
-            phonemes = [
-                Phoneme("s", lang),
-                Phoneme("c", lang),
-                Phoneme("ae", lang),
-                Phoneme("t", lang),
-                Phoneme("i", lang),
-            ]
-            before, match = rule_store.apply_all(phonemes)
-            assert before == [
-                Phoneme("s", lang),
-                Phoneme("c", lang),
-                Phoneme("ae", lang),
-            ]
-            assert match == [Phoneme("t", lang), Phoneme("i", lang)]
-
-    def test_syllable_transformation_store(self):
-        def test_apply_all(self):
-            def append_x_transformation(syllable: Syllable) -> Syllable:
-                new_phonemes = syllable.phonemes + [Phoneme("x", syllable.lang)]
-                return Syllable(new_phonemes, syllable.lang, syllable.is_long)
-
-            def append_z_transformation(syllable: Syllable) -> Syllable:
-                new_phonemes = syllable.phonemes + [Phoneme("z", syllable.lang)]
-                return Syllable(new_phonemes, syllable.lang, syllable.is_long)
-
-            syllables = [
-                Syllable([Phoneme("b", lang)], lang),
-                Syllable([Phoneme("a", lang)], lang),
-                Syllable([Phoneme("c", lang)], lang),
-                Syllable([Phoneme("a", lang)], lang),
-            ]
-
-            store = MorphismStore[Syllable](
-                [
-                    Morphism[Syllable](
-                        target=Rule[Syllable](val="a"),
-                        prefix=RuleSequence[Syllable]([Rule[Syllable](val="b")]),
-                        suffix=RuleSequence[Syllable]([Rule[Syllable](val="c")]),
-                        transformation=append_x_transformation,
-                    ),
-                    Morphism[Syllable](
-                        target=Rule[Syllable](val="a"),
-                        prefix=RuleSequence[Syllable]([Rule[Syllable](val="c")]),
-                        suffix=RuleSequence[Syllable]([]),
-                        transformation=append_z_transformation,
-                    ),
-                ]
-            )
-
-            new_syllables = store.apply_all(syllables)
-            assert new_syllables[0].val == "b"
-            assert new_syllables[1].val == "ax"
-            assert new_syllables[2].val == "c"
-            assert new_syllables[3].val == "az"
-
-    def test_syllable_quantity(self):
-        def test_long_nature_morphism(self):
-            s = Syllable([Phoneme("ā", lang=lang)], lang=lang)
-            transformed_s = latin_syllable_morphisms.apply_all([s])[0]
-            assert transformed_s.is_long == True
-
-        def test_long_position_morphism(self):
-            s = Syllable([Phoneme("a", lang=lang)], lang=lang)
-            s2 = Syllable(
-                [
-                    Phoneme("c", lang=lang),
-                    Phoneme("c", lang=lang),
-                    Phoneme("a", lang),
-                ],
-                lang=lang,
-            )
-            transformed_s = latin_syllable_morphisms.apply_all([s, s2])[0]
-            assert transformed_s.is_long == True
+            ],
+            lang=lang,
+        )
+        transformed_s = latin_syllable_morphisms.apply_all([s, s2])[0]
+        assert transformed_s.is_long == True
