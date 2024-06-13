@@ -1,16 +1,17 @@
-<h1 align="center">loquax</h1>
-
-<p align="center">A <a href="https://en.wikipedia.org/wiki/Classical_antiquity">Classical</a> Phonology framework</p>
-
-<p align="center">
+<p align="left">
     <a href="https://github.com/psf/black"><img src="https://img.shields.io/badge/code%20style-black-000000.svg" alt="Code style: black"></a>
     <a href="https://codecov.io/gh/mattlianje/loquax"><img src="https://codecov.io/gh/mattlianje/loquax/branch/main/graph/badge.svg?token=EBMEFP40QL" alt="codecov"></a>
     <img src="https://github.com/mattlianje/loquax/actions/workflows/main.yml/badge.svg" alt="Build status">
 </p>
 
-<p align="center">Loquax, (Latin for "chatty"), is an extensible, zero-dependency, FP-style Python library for phonological analysis.</p>
+<div align="center">
+    <img src="pix/loquax_with_github.png" width="400"/>
+</div>
 
-![loquax](data/catilina.gif)
+# Loquax
+Loquax, (Latin for "chatty"), is an extensible, zero-dependency, FP-style Python library for phonological analysis.
+
+![loquax](pix/catilina.gif)
 The [loquax web client](https://nargothrond.xyz/loquax).
 
 ## Features
