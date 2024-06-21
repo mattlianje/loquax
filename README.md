@@ -1,7 +1,6 @@
 <p align="left">
     <a href="https://github.com/psf/black"><img src="https://img.shields.io/badge/code%20style-black-000000.svg" alt="Code style: black"></a>
     <a href="https://codecov.io/gh/mattlianje/loquax"><img src="https://codecov.io/gh/mattlianje/loquax/branch/main/graph/badge.svg?token=EBMEFP40QL" alt="codecov"></a>
-    <img src="https://github.com/mattlianje/loquax/actions/workflows/main.yml/badge.svg" alt="Build status">
 </p>
 
 <div align="center">
