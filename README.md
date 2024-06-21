@@ -6,12 +6,12 @@
 Loquax, (Latin for "chatty"), is an extensible, zero-dependency, FP-style Python library for phonological analysis. Eventually the python package will be soft-deprecated and this repo will house the compiler for the Loquax DSL. The [loquax web client](https://nargothrond.xyz/loquax).
 
 ## Features
-- [Syllabification/tokenization](#syllabification-and-tokenization)
-- [Phoneme analysis](#phoneme-analysis)
-- [Morphological transformations](#morphological-transformations)
-- [IPA transliteration](#ipa-transliteration)
-- [Scansion](#scansion)
-- [Extensibility](#extensibility)
+- Define your own languages/accents/dialects and parse texts with them
+- "Out of the box" Classical Latin support
+- Syllabification and tokenization of corpora
+- Phoneme analysis for all tokens in your corpus
+- Scansion (if you define long/short rules in your language)
+- IPA transliteration
 
 ## Languages
 | Language/Dialect       | IPA  | Syllabification | Scansion |
